@@ -26,7 +26,7 @@ public class BeerDTO {
     private Integer version;
 
     @Null
-    private OffsetDateTime createDate;
+    private OffsetDateTime createdDate;
 
     @Null
     private OffsetDateTime lastModifiedDate;
