@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.id.UUIDGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -39,7 +38,7 @@ public class Beer {
     private String beerStyle;
 
     @Column(unique = true)
-    private Long upc;
+    private String upc;
 
     private BigDecimal price;
 

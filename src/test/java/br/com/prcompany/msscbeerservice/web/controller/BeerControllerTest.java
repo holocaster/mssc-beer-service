@@ -1,5 +1,6 @@
 package br.com.prcompany.msscbeerservice.web.controller;
 
+import br.com.prcompany.msscbeerservice.bootstrap.BeerLoader;
 import br.com.prcompany.msscbeerservice.services.BeerService;
 import br.com.prcompany.msscbeerservice.web.model.BeerDTO;
 import br.com.prcompany.msscbeerservice.web.model.BeerStyleEnum;
@@ -121,7 +122,7 @@ class BeerControllerTest {
                 .beerName("Nice Ale")
                 .beerStyle(BeerStyleEnum.ALE)
                 .price(new BigDecimal("9.99"))
-                .upc(123123123123L)
+                .upc(BeerLoader.BEER_1_UPC)
                 .build();
 
     }
