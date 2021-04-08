@@ -20,7 +20,6 @@ class BeerDTOTest extends BaseTest {
         String jsonString = this.objectMapper.writeValueAsString(beerDTO);
 
         log.info(jsonString);
-
     }
 
     @Test
