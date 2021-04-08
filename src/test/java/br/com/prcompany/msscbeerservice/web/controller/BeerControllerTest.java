@@ -1,7 +1,6 @@
 package br.com.prcompany.msscbeerservice.web.controller;
 
-import br.com.prcompany.msscbeerservice.domain.Beer;
-import br.com.prcompany.msscbeerservice.repositories.BeerRepository;
+import br.com.prcompany.msscbeerservice.services.BeerService;
 import br.com.prcompany.msscbeerservice.web.model.BeerDTO;
 import br.com.prcompany.msscbeerservice.web.model.BeerStyleEnum;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +20,6 @@ import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -46,11 +44,11 @@ class BeerControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    BeerRepository beerRepository;
+    BeerService beerService;
 
     @Test
     void getBeerById() throws Exception {
-        given(beerRepository.findById(any())).willReturn(Optional.of(Beer.builder().build()));
+        given(beerService.getById(any())).willReturn(this.getValidBeerDto());
 
         mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID().toString())
                 .param("iscold", "yes")
@@ -78,6 +76,10 @@ class BeerControllerTest {
 
     @Test
     void saveNewBeer() throws Exception {
+        BeerDTO mockDTO = getValidBeerDto();
+        mockDTO.setId(UUID.randomUUID());
+        given(beerService.saveNewBeer(any())).willReturn(mockDTO);
+
         BeerDTO beerDto = getValidBeerDto();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
@@ -103,6 +105,8 @@ class BeerControllerTest {
 
     @Test
     void updateBeerById() throws Exception {
+        given(beerService.updateBeer(any(), any())).willReturn(getValidBeerDto());
+
         BeerDTO beerDto = getValidBeerDto();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
