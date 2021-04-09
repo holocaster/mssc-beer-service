@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/beer")
+@RequestMapping("/api/v1/")
 public class BeerController {
 
     private static final Integer DEFAULT_PAGE_NUMBER = 0;
@@ -26,7 +26,7 @@ public class BeerController {
 
     private final BeerService beerService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/beer", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                    @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                    @RequestParam(value = "beerName", required = false) String beerName,
@@ -45,14 +45,21 @@ public class BeerController {
         return ResponseEntity.ok(beerList);
     }
 
-    @GetMapping("/{beerId}")
-    public ResponseEntity<BeerDTO> getBeerById(@PathVariable("beerId") final UUID beerId,
-                                               @RequestParam(value = "showInventoryOnHand", required = false, defaultValue = "false") boolean showInventoryOnHand) {
-        final BeerDTO beerDTO = this.beerService.getById(beerId,showInventoryOnHand);
+    @GetMapping("/beerUpc/{upc}")
+    public ResponseEntity<BeerDTO> getBeerByUpc(@PathVariable("upc") final String upc,
+                                                @RequestParam(value = "showInventoryOnHand", required = false, defaultValue = "false") boolean showInventoryOnHand) {
+        final BeerDTO beerDTO = this.beerService.getByUpc(upc, showInventoryOnHand);
         return new ResponseEntity<>(beerDTO, HttpStatus.OK);
     }
 
-    @PostMapping
+    @GetMapping("/beer/{beerId}")
+    public ResponseEntity<BeerDTO> getBeerById(@PathVariable("beerId") final UUID beerId,
+                                               @RequestParam(value = "showInventoryOnHand", required = false, defaultValue = "false") boolean showInventoryOnHand) {
+        final BeerDTO beerDTO = this.beerService.getById(beerId, showInventoryOnHand);
+        return new ResponseEntity<>(beerDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/beer")
     public ResponseEntity saveNewBeer(@Valid @RequestBody BeerDTO beerDTO) {
         final BeerDTO saveDTO = this.beerService.saveNewBeer(beerDTO);
 
@@ -61,7 +68,7 @@ public class BeerController {
     }
 
 
-    @PutMapping("/{beerId}")
+    @PutMapping("/beer/{beerId}")
     public ResponseEntity updateBeerById(@Valid @RequestBody BeerDTO beerDTO, @PathVariable("beerId") final UUID beerId) {
         this.beerService.updateBeer(beerId, beerDTO);
         return ResponseEntity.noContent().build();
