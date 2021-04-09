@@ -1,0 +1,34 @@
+package br.com.prcompany.msscbeerservice.web.mappers;
+
+import br.com.prcompany.msscbeerservice.domain.Beer;
+import br.com.prcompany.msscbeerservice.services.inventory.BeerInventoryService;
+import br.com.prcompany.msscbeerservice.web.model.BeerDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public abstract class BeerMapperDecorator implements BeerMapper {
+
+    private BeerInventoryService beerInventoryService;
+    private BeerMapper beerMapper;
+
+    @Autowired
+    public void setBeerInventoryService(BeerInventoryService beerInventoryService) {
+        this.beerInventoryService = beerInventoryService;
+    }
+
+    @Autowired
+    public void setBeerMapper(BeerMapper beerMapper) {
+        this.beerMapper = beerMapper;
+    }
+
+    @Override
+    public BeerDTO beerToBeerDTO(Beer beer) {
+        BeerDTO beerDTO = this.beerMapper.beerToBeerDTO(beer);
+        beerDTO.setQuantityOnHand(this.beerInventoryService.getOnhandInventory(beer.getId()));
+        return beerDTO;
+    }
+
+    @Override
+    public Beer beerDTOToBeer(BeerDTO beerDTO) {
+        return this.beerMapper.beerDTOToBeer(beerDTO);
+    }
+}

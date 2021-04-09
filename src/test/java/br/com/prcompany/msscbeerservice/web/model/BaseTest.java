@@ -1,6 +1,6 @@
 package br.com.prcompany.msscbeerservice.web.model;
 
-import br.com.prcompany.msscbeerservice.bootstrap.BeerLoader;
+import br.com.prcompany.msscbeerservice.utils.BeerUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,7 +19,7 @@ class BaseTest {
                 .createdDate(OffsetDateTime.now())
                 .lastModifiedDate(OffsetDateTime.now())
                 .price(new BigDecimal("12.99"))
-                .upc(BeerLoader.BEER_1_UPC)
+                .upc(BeerUtils.BEER_1_UPC)
                 .build();
     }
 }
