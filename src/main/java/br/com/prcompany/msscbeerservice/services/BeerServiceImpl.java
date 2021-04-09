@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -25,9 +26,13 @@ public class BeerServiceImpl implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public BeerDTO getById(UUID beerId) {
-        return this.beerMapper.beerToBeerDTO(
-                this.beerRepository.findById(beerId).orElseThrow(ObjectNotFoundException::new));
+    public BeerDTO getById(UUID beerId, boolean showInventoryOnHand) {
+        Beer beer = this.beerRepository.findById(beerId).orElseThrow(ObjectNotFoundException::new);
+
+        if (showInventoryOnHand) {
+            return this.beerMapper.beerToBeerDTOWithInventoryOnHand(beer);
+        }
+        return this.beerMapper.beerToBeerDTO(beer);
     }
 
     @Override
@@ -49,8 +54,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyleEnum, PageRequest pageRequest) {
-
+    public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyleEnum, PageRequest pageRequest, boolean showInventoryOnHand) {
         BeerPagedList beerPagedList;
         Page<Beer> beerPage;
 
@@ -67,7 +71,14 @@ public class BeerServiceImpl implements BeerService {
             beerPage = this.beerRepository.findAll(pageRequest);
         }
 
-        beerPagedList = new BeerPagedList(beerPage.getContent().stream().map(this.beerMapper::beerToBeerDTO).collect(Collectors.toList()),
+        Stream<BeerDTO> beerDTOStream;
+        if (showInventoryOnHand) {
+            beerDTOStream = beerPage.getContent().stream().map(this.beerMapper::beerToBeerDTOWithInventoryOnHand);
+        } else {
+            beerDTOStream = beerPage.getContent().stream().map(this.beerMapper::beerToBeerDTO);
+        }
+
+        beerPagedList = new BeerPagedList(beerDTOStream.collect(Collectors.toList()),
                 PageRequest.of(beerPage.getPageable().getPageNumber(), beerPage.getPageable().getPageSize()),
                 beerPage.getTotalElements());
 
