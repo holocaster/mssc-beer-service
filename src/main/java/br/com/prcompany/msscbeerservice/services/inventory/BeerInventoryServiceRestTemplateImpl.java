@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
-@Component
+@Service
 public class BeerInventoryServiceRestTemplateImpl implements BeerInventoryService {
 
     private RestTemplate restTemplate;

@@ -1,6 +1,7 @@
 package br.com.prcompany.msscbeerservice.web.controller;
 
 import br.com.prcompany.msscbeerservice.services.BeerService;
+import br.com.prcompany.msscbeerservice.services.inventory.BeerInventoryService;
 import br.com.prcompany.msscbeerservice.utils.BeerUtils;
 import br.com.prcompany.msscbeerservice.web.model.BeerDTO;
 import br.com.prcompany.msscbeerservice.web.model.BeerStyleEnum;
@@ -24,6 +25,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -47,9 +49,12 @@ class BeerControllerTest {
     @MockBean
     BeerService beerService;
 
+    @MockBean
+    BeerInventoryService beerInventoryService;
+
     @Test
     void getBeerById() throws Exception {
-        given(beerService.getById(any(), any())).willReturn(this.getValidBeerDto());
+        given(beerService.getById(any(), anyBoolean())).willReturn(this.getValidBeerDto());
 
         mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID().toString())
                 .param("iscold", "yes")

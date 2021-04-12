@@ -1,12 +1,14 @@
 package br.com.prcompany.msscbeerservice.services.inventory;
 
 import br.com.prcompany.msscbeerservice.utils.BeerUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
 
+@Disabled
 @SpringBootTest
 class BeerInventoryServiceRestTemplateImplTest {
 
