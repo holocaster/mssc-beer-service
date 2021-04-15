@@ -11,6 +11,8 @@ public interface BeerMapper {
 
     BeerDTO beerToBeerDTO(Beer beer);
 
+    br.com.prcompany.beerevents.model.BeerDTO beerToEventBeerDTO(Beer beer);
+
     BeerDTO beerToBeerDTOWithInventoryOnHand(Beer beer);
 
     Beer beerDTOToBeer(BeerDTO beerDTO);

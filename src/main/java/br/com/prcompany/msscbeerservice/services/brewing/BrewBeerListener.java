@@ -1,11 +1,11 @@
 package br.com.prcompany.msscbeerservice.services.brewing;
 
-import br.com.prcompany.msscbeerservice.config.JmsConfig;
+import br.com.prcompany.beerevents.events.BrewBeerEvent;
+import br.com.prcompany.beerevents.events.NewInventoryEvent;
+import br.com.prcompany.beerevents.model.BeerDTO;
+import br.com.prcompany.beerevents.utils.EventsConstants;
 import br.com.prcompany.msscbeerservice.domain.Beer;
-import br.com.prcompany.msscbeerservice.events.BrewBeerEvent;
-import br.com.prcompany.msscbeerservice.events.InventoryEvent;
 import br.com.prcompany.msscbeerservice.repositories.BeerRepository;
-import br.com.prcompany.msscbeerservice.web.model.BeerDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.annotation.JmsListener;
@@ -23,7 +23,7 @@ public class BrewBeerListener {
     private final JmsTemplate jmsTemplate;
 
     @Transactional
-    @JmsListener(destination = JmsConfig.BREWING_REQUEST_QUEUE)
+    @JmsListener(destination = EventsConstants.BREWING_REQUEST_QUEUE)
     public void listen(@Payload BrewBeerEvent event) {
         BeerDTO beerDTO = event.getBeerDTO();
 
@@ -31,11 +31,11 @@ public class BrewBeerListener {
 
         beerDTO.setQuantityOnHand(beer.getQuantityToBrew());
 
-        InventoryEvent inventoryEvent = new InventoryEvent(beerDTO);
+        NewInventoryEvent inventoryEvent = new NewInventoryEvent(beerDTO);
 
         log.debug("Brewed beer: " + beer.getMinOnHand() + " - Qoh:" + beerDTO.getQuantityOnHand());
 
-        this.jmsTemplate.convertAndSend(JmsConfig.NEW_INVENTORY_QUEUE, inventoryEvent);
+        this.jmsTemplate.convertAndSend(EventsConstants.NEW_INVENTORY_QUEUE, inventoryEvent);
 
     }
 }

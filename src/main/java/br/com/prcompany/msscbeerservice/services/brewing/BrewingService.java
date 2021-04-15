@@ -1,8 +1,8 @@
 package br.com.prcompany.msscbeerservice.services.brewing;
 
-import br.com.prcompany.msscbeerservice.config.JmsConfig;
+import br.com.prcompany.beerevents.events.BrewBeerEvent;
+import br.com.prcompany.beerevents.utils.EventsConstants;
 import br.com.prcompany.msscbeerservice.domain.Beer;
-import br.com.prcompany.msscbeerservice.events.BrewBeerEvent;
 import br.com.prcompany.msscbeerservice.repositories.BeerRepository;
 import br.com.prcompany.msscbeerservice.services.inventory.BeerInventoryService;
 import br.com.prcompany.msscbeerservice.web.mappers.BeerMapper;
@@ -34,7 +34,7 @@ public class BrewingService {
             log.debug("Inventory is : " + invQoh);
 
             if (beer.getMinOnHand() >= invQoh) {
-                jmsTemplate.convertAndSend(JmsConfig.BREWING_REQUEST_QUEUE, new BrewBeerEvent(this.beerMapper.beerToBeerDTO(beer)));
+                jmsTemplate.convertAndSend(EventsConstants.BREWING_REQUEST_QUEUE, new BrewBeerEvent(this.beerMapper.beerToEventBeerDTO(beer)));
             }
         });
     }
