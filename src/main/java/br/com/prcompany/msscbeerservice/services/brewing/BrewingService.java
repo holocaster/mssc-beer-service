@@ -1,4 +1,4 @@
-package br.com.prcompany.msscbeerservice.services;
+package br.com.prcompany.msscbeerservice.services.brewing;
 
 import br.com.prcompany.msscbeerservice.config.JmsConfig;
 import br.com.prcompany.msscbeerservice.domain.Beer;
