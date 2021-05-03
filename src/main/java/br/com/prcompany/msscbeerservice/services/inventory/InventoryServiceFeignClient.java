@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-@FeignClient(name = "${feign_inventory_service_name}")
+@FeignClient(name = "${feign_inventory_service_name}", fallback = InventoryServiceFeignClientImpl.class)
 public interface InventoryServiceFeignClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "${inventory_path}")
