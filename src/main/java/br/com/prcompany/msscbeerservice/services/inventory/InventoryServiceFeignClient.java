@@ -1,5 +1,6 @@
 package br.com.prcompany.msscbeerservice.services.inventory;
 
+import br.com.prcompany.msscbeerservice.config.FeignClientConfig;
 import br.com.prcompany.msscbeerservice.services.inventory.model.BeerInventoryDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-@FeignClient(name = "${feign_inventory_service_name}", fallback = InventoryServiceFeignClientImpl.class)
+@FeignClient(name = "${feign_inventory_service_name}", fallback = InventoryServiceFeignClientImpl.class, configuration = FeignClientConfig.class)
 public interface InventoryServiceFeignClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "${inventory_path}")
