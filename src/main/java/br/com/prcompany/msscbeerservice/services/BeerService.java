@@ -1,8 +1,8 @@
 package br.com.prcompany.msscbeerservice.services;
 
-import br.com.prcompany.msscbeerservice.web.model.BeerDTO;
-import br.com.prcompany.msscbeerservice.web.model.BeerPagedList;
-import br.com.prcompany.msscbeerservice.web.model.BeerStyleEnum;
+import br.com.prcompany.beerevents.model.BeerDTO;
+import br.com.prcompany.beerevents.model.BeerPagedList;
+import br.com.prcompany.beerevents.model.BeerStyleEnum;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.UUID;

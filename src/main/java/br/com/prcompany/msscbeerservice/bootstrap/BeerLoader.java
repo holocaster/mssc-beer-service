@@ -1,8 +1,8 @@
 package br.com.prcompany.msscbeerservice.bootstrap;
 
+import br.com.prcompany.beerevents.model.BeerStyleEnum;
 import br.com.prcompany.msscbeerservice.domain.Beer;
 import br.com.prcompany.msscbeerservice.repositories.BeerRepository;
-import br.com.prcompany.msscbeerservice.web.model.BeerStyleEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

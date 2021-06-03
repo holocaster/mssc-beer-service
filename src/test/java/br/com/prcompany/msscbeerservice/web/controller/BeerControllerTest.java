@@ -1,10 +1,10 @@
 package br.com.prcompany.msscbeerservice.web.controller;
 
+import br.com.prcompany.beerevents.model.BeerDTO;
+import br.com.prcompany.beerevents.model.BeerStyleEnum;
 import br.com.prcompany.msscbeerservice.services.BeerService;
 import br.com.prcompany.msscbeerservice.services.inventory.BeerInventoryService;
 import br.com.prcompany.msscbeerservice.utils.BeerUtils;
-import br.com.prcompany.msscbeerservice.web.model.BeerDTO;
-import br.com.prcompany.msscbeerservice.web.model.BeerStyleEnum;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

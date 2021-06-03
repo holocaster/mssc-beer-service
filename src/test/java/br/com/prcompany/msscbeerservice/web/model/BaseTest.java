@@ -1,5 +1,7 @@
 package br.com.prcompany.msscbeerservice.web.model;
 
+import br.com.prcompany.beerevents.model.BeerDTO;
+import br.com.prcompany.beerevents.model.BeerStyleEnum;
 import br.com.prcompany.msscbeerservice.utils.BeerUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

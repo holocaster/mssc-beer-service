@@ -1,7 +1,7 @@
 package br.com.prcompany.msscbeerservice.repositories;
 
+import br.com.prcompany.beerevents.model.BeerStyleEnum;
 import br.com.prcompany.msscbeerservice.domain.Beer;
-import br.com.prcompany.msscbeerservice.web.model.BeerStyleEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;

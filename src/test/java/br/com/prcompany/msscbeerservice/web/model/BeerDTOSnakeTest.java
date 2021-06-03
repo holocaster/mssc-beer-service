@@ -1,5 +1,6 @@
 package br.com.prcompany.msscbeerservice.web.model;
 
+import br.com.prcompany.beerevents.model.BeerDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

@@ -3,6 +3,7 @@ package br.com.prcompany.msscbeerservice.services.inventory;
 import br.com.prcompany.msscbeerservice.services.inventory.model.BeerInventoryDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,14 @@ public class BeerInventoryServiceFeign implements BeerInventoryService {
 
         final ResponseEntity<List<BeerInventoryDTO>> responseEntity = this.inventoryServiceFeignClient.getOnHandInventory(beerId);
 
-        Integer onHand = Objects.requireNonNull(responseEntity.getBody()).stream()
-                .mapToInt(BeerInventoryDTO::getQuantityOnHand).sum();
+        Integer onHand;
+        if (HttpStatus.SERVICE_UNAVAILABLE.equals(responseEntity.getStatusCode())) {
+            log.error("Inventory service not available: {}", responseEntity);
+            onHand = 0;
+        } else {
+            onHand = Objects.requireNonNull(responseEntity.getBody()).stream()
+                    .mapToInt(BeerInventoryDTO::getQuantityOnHand).sum();
+        }
 
         log.debug("BeerId: {} - On hand is: {}", beerId, onHand);
         return onHand;

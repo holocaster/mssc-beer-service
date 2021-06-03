@@ -1,13 +1,13 @@
 package br.com.prcompany.msscbeerservice.services;
 
+import br.com.prcompany.beerevents.model.BeerDTO;
+import br.com.prcompany.beerevents.model.BeerPagedList;
+import br.com.prcompany.beerevents.model.BeerStyleEnum;
 import br.com.prcompany.msscbeerservice.domain.Beer;
 import br.com.prcompany.msscbeerservice.repositories.BeerRepository;
 import br.com.prcompany.msscbeerservice.services.exceptions.ObjectNotFoundException;
 import br.com.prcompany.msscbeerservice.utils.StringUtils;
 import br.com.prcompany.msscbeerservice.web.mappers.BeerMapper;
-import br.com.prcompany.msscbeerservice.web.model.BeerDTO;
-import br.com.prcompany.msscbeerservice.web.model.BeerPagedList;
-import br.com.prcompany.msscbeerservice.web.model.BeerStyleEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;

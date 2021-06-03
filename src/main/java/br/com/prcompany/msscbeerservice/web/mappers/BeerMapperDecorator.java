@@ -1,8 +1,8 @@
 package br.com.prcompany.msscbeerservice.web.mappers;
 
+import br.com.prcompany.beerevents.model.BeerDTO;
 import br.com.prcompany.msscbeerservice.domain.Beer;
 import br.com.prcompany.msscbeerservice.services.inventory.BeerInventoryService;
-import br.com.prcompany.msscbeerservice.web.model.BeerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class BeerMapperDecorator implements BeerMapper {
