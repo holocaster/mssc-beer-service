@@ -33,22 +33,12 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_ZIPKIN_BASEURL: http://zipkin:9411
       SPRING_ARTEMIS_HOST: jms
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/beerinventoryservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      DB_HOST: db
+      DB_PORT: 3306
+      ZIPKIN_HOST: zipkin
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
     restart: on-failure
-  inventory-fail-over:
-    image: prcompany/mssc-beer-inventory-failover
-    ports:
-      - 8083:8083
-    depends_on:
-      - eureka
-      - config
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
-      SPRING_ZIPKIN_BASEURL: http://zipkin:9411
-      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
   beer-service:
     image: prcompany/mssc-beer-service
     ports:
@@ -61,9 +51,10 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_ZIPKIN_BASEURL: http://zipkin:9411
       SPRING_ARTEMIS_HOST: jms
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/beerservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      DB_HOST: db
+      DB_PORT: 3306
+      ZIPKIN_HOST: zipkin
       beer_inventory_service_host: http://inventory-service:8082
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
     restart: on-failure
@@ -79,11 +70,28 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_ZIPKIN_BASEURL: http://zipkin:9411
       SPRING_ARTEMIS_HOST: jms
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/beerorderservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      DB_HOST: db
+      DB_PORT: 3306
+      ZIPKIN_HOST: zipkin
       inventory_beer_service_host: http://beer-service:8080
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+    restart: on-failure
+  tasting-room-service:
+    image: prcompany/mssc-tasting-room
+    ports:
+      - 8084:8084
+    depends_on:
+      - eureka
+      - config
+      - order-service
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+      DB_HOST: db
+      DB_PORT: 3306
+      ZIPKIN_HOST: zipkin
     restart: on-failure
   gateway:
     image: prcompany/mssc-brewery-gateway
@@ -95,7 +103,6 @@ services:
       - beer-service
       - inventory-service
       - order-service
-      - inventory-fail-over
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka
       SPRING_ZIPKIN_BASEURL: http://zipkin:9411
